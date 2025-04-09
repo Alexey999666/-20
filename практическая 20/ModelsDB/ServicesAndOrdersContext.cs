@@ -25,7 +25,7 @@ public partial class ServicesAndOrdersContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress; Database= ServicesAndOrders; User=исп-31; Password = 1234567890; Encrypt=false");
+        => optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress; Database=ServicesAndOrders; User=исп-31; Password= 1234567890; Encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +35,7 @@ public partial class ServicesAndOrdersContext : DbContext
 
             entity.ToTable("Заказы");
 
+            entity.Property(e => e.ДатаЗаказа).HasColumnType("datetime");
             entity.Property(e => e.СтоимостьУслуги).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ФормаОплаты)
                 .HasMaxLength(20)
@@ -53,7 +54,7 @@ public partial class ServicesAndOrdersContext : DbContext
 
         modelBuilder.Entity<Клиенты>(entity =>
         {
-            entity.HasKey(e => e.КодКлиента).HasName("PK__Клиенты__FFB6CA6989A75929");
+            entity.HasKey(e => e.КодКлиента).HasName("PK__Клиенты__FFB6CA691F5BC053");
 
             entity.ToTable("Клиенты");
 
@@ -71,7 +72,7 @@ public partial class ServicesAndOrdersContext : DbContext
 
         modelBuilder.Entity<РеестрЗаказов>(entity =>
         {
-            entity.HasKey(e => e.НомерЗаказа).HasName("PK__РеестрЗа__33C9BE6354F0868E");
+            entity.HasKey(e => e.НомерЗаказа).HasName("PK__РеестрЗа__33C9BE63E9767174");
 
             entity.ToTable("РеестрЗаказов");
 
@@ -81,12 +82,12 @@ public partial class ServicesAndOrdersContext : DbContext
             entity.HasOne(d => d.КодКлиентаNavigation).WithMany(p => p.РеестрЗаказовs)
                 .HasForeignKey(d => d.КодКлиента)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__РеестрЗак__КодКл__2C3393D0");
+                .HasConstraintName("FK__РеестрЗак__КодКл__2E1BDC42");
         });
 
         modelBuilder.Entity<СправочникУслуг>(entity =>
         {
-            entity.HasKey(e => e.КодУслуги).HasName("PK__Справочн__2A901A735104DD63");
+            entity.HasKey(e => e.КодУслуги).HasName("PK__Справочн__2A901A73C2CD42D0");
 
             entity.ToTable("СправочникУслуг");
 

@@ -42,7 +42,7 @@ namespace практическая_20
         }
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            tbFiltr1.Clear();
+           
            
             tbPoisk.Clear();
            
@@ -64,16 +64,25 @@ namespace практическая_20
             using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
             {
                 int selectIndex = DGDataBase.SelectedIndex;
+                int selectIndexCl = DGclient.SelectedIndex;
                 _db.Заказыs.Load();
                 _db.Клиентыs.Load();
                 _db.РеестрЗаказовs.Load();
                 _db.СправочникУслугs.Load();
+
                 DGDataBase.ItemsSource = _db.Заказыs.ToList();
+                DGclient.ItemsSource = _db.Клиентыs.ToList();
                 if (selectIndex != -1)
                 {
                     if (selectIndex >= DGDataBase.Items.Count) selectIndex = DGDataBase.Items.Count - 1;
                     DGDataBase.SelectedIndex = selectIndex;
                     DGDataBase.ScrollIntoView(DGDataBase.SelectedItem);
+                }
+                if (selectIndexCl != -1)
+                {
+                    if (selectIndexCl >= DGclient.Items.Count) selectIndexCl = DGclient.Items.Count - 1;
+                    DGclient.SelectedIndex = selectIndexCl;
+                    DGclient.ScrollIntoView(DGclient.SelectedItem);
                 }
                 DGDataBase.Focus();
             }
@@ -81,6 +90,7 @@ namespace практическая_20
 
         private void btnAddEntry(object sender, RoutedEventArgs e)
         {
+            Flags.FlagADD = true;
             Data.заказы = null;
             TheForm f = new TheForm();
             f.Owner = this;
@@ -92,7 +102,7 @@ namespace практическая_20
         {
             if (DGDataBase.SelectedItem != null)
             {
-
+                Flags.FlagEdit = true;
                 Data.заказы = (Заказы)DGDataBase.SelectedItem;
                 TheForm f = new TheForm();
                 f.Owner = this;
@@ -143,14 +153,25 @@ namespace практическая_20
 
         }
 
-        private void btnFiltered1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void btnFind_Click(object sender, RoutedEventArgs e)
         {
-
+            
+            List<Заказы> listItem = (List<Заказы>)DGDataBase.ItemsSource;
+            var find = listItem.Where(p => p.КодУслугиNavigation.КодУслуги.ToString().Contains(tbPoisk.Text) || (p.КодУслугиNavigation != null &&
+     p.КодУслугиNavigation.Наименование.Contains(tbPoisk.Text)));
+            if (find.Any())
+            {
+                var item = find.First();
+                DGDataBase.SelectedItem = item;
+                DGDataBase.ScrollIntoView(item);
+                DGDataBase.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Совпадений не найдено");
+            }
         }
 
         private void btnGenderFind_Click(object sender, RoutedEventArgs e)

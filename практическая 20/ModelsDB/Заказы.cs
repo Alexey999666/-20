@@ -9,7 +9,7 @@ public partial class Заказы
 
     public int НомерЗаказа { get; set; }
 
-    public DateOnly ДатаЗаказа { get; set; }
+    public DateTime ДатаЗаказа { get; set; }
 
     public int КодУслуги { get; set; }
 
