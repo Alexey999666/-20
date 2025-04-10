@@ -46,10 +46,7 @@ namespace практическая_20
            
             tbPoisk.Clear();
            
-            tbGradeAll.Clear();
-            
-            
-            tbnNameFind.Clear();
+           
             
             
             
@@ -138,20 +135,9 @@ namespace практическая_20
             else DGDataBase.Focus();
         }
 
-        private void btNULLPatronic_Click(object sender, RoutedEventArgs e)
-        {
+       
 
-        }
-
-        private void btALLGrade_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnNFind_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
        
 
@@ -174,7 +160,24 @@ namespace практическая_20
             }
         }
 
-        private void btnGenderFind_Click(object sender, RoutedEventArgs e)
+       
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            LoudDataBaseDG();
+        }
+
+        private void btnClientCost_Click(object sender, RoutedEventArgs e)
+        {
+            using(ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            {
+                var CostSum = _db.Клиентыs.FromSql($"Запрос2Для20Работы");
+                DGclient.ItemsSource = CostSum.ToList();
+            }
+           
+        }
+
+        private void btnPhoneRyzan_Click(object sender, RoutedEventArgs e)
         {
 
         }

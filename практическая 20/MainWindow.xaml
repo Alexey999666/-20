@@ -76,8 +76,13 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
-        <DataGrid x:Name="DGclient" Grid.Row="2" IsReadOnly="True" Margin="0,2,0,7"  >
-            
+        <DataGrid x:Name="DGclient" Grid.Row="2" IsReadOnly="True" Margin="0,2,0,7" AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn  Binding="{Binding КодКлиента}" Header="Код клиента"  />
+                <DataGridTextColumn Binding="{Binding ФамилияКлиента}" Header="Фамилия" />
+                <DataGridTextColumn Binding="{Binding АдресКлиента}" Header="Адрес" />
+                <DataGridTextColumn Binding="{Binding Телефон}" Header="Телефон"/>
+            </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,3,0,0" >
             <Button Height="30" Width="160" VerticalAlignment="Top" Margin="20" Content="Добавить запись" x:Name="btnADD" Click="btnAddEntry" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
@@ -85,41 +90,26 @@
 
             <Button Height="30" Width="160" VerticalAlignment="Top" Margin="20" Content="Удалить запись" x:Name="btnDelete" Click="btnDelete_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
             <Button Height="30" Width="160" VerticalAlignment="Top" Margin="20" Content="Очистить" ToolTip="Очистить значения во всех TextBox" Click="btnClear_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
-
+            <Button Height="30" Width="160" VerticalAlignment="Top" Margin="20" Content="Обновление" ToolTip="Обновляет таблички" Click="btnUpdate_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8" />
         </StackPanel>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Margin="0,115,0,0" Grid.RowSpan="2">
             <StackPanel Margin="5" >
-                <Label Content="Код услуги" Margin="5" HorizontalContentAlignment="Center" Width="210" Foreground="#388AC8"/>
+                <Label Content="Услуги" Margin="5" HorizontalContentAlignment="Center" Width="210" Foreground="#388AC8"/>
                 <TextBox TextWrapping="Wrap" x:Name="tbPoisk" Margin="5" Height="20"  Width="210" Background="#0A3B2C" Foreground="#FF0B8EEC" BorderBrush="#FF7DE8E8"/>
                 <Button Content="Поиск" x:Name="btnFind" Margin="5" Height="20" Click="btnFind_Click" Width="210" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
             </StackPanel>
             <StackPanel Margin="10">
                 <Label Content="Запрос 1" HorizontalContentAlignment="Center"  Foreground="#388AC8"/>
 
-                <ComboBox x:Name="cbGen" Foreground="#0A64A4" Background="#FF0A3B2C"  BorderBrush="#FF7DE8E8" >
-                    <ComboBoxItem Content="Мужской" Background="#FF0A3B2C" />
-                    <ComboBoxItem Content="Женский" Background="#FF0A3B2C"/>
-                </ComboBox>
-                <Button Content="Найти" x:Name="ZP1" Click="btnGenderFind_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
+                <Button Content="Найти" x:Name="ZP1" Click="btnClientCost_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
             </StackPanel>
             <StackPanel Margin="10">
                 <Label Content="Запрос 2" HorizontalContentAlignment="Center"  Foreground="#388AC8"/>
-                <TextBox x:Name="tbnNameFind" Background="#0A3B2C" Foreground="#FF0B8EEC" BorderBrush="#FF7DE8E8"/>
+                
 
-                <Button Content="Найти" x:Name="ZP2" Click="btnNFind_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
+                <Button Content="Найти" x:Name="ZP2" Click="btnPhoneRyzan_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
             </StackPanel>
-            <StackPanel Margin="10">
-                <Label Content="Запрос 3" HorizontalContentAlignment="Center"  Foreground="#388AC8"/>
-                <TextBox x:Name="tbGradeAll" Background="#0A3B2C" Foreground="#FF0B8EEC" BorderBrush="#FF7DE8E8"/>
-
-                <Button Content="Найти" x:Name="ZP3" Click="btALLGrade_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
-            </StackPanel>
-            <StackPanel Margin="10">
-                <Label Content="Запрос 4" HorizontalContentAlignment="Center"  Foreground="#388AC8"/>
-
-
-                <Button Content="Найти" x:Name="ZP4" Click="btNULLPatronic_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
-            </StackPanel>
+           
 
 
 

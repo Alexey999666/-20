@@ -17,6 +17,10 @@ public partial class ServicesAndOrdersContext : DbContext
 
     public virtual DbSet<Заказы> Заказыs { get; set; }
 
+    public virtual DbSet<Запрос2Для20Работы> Запрос2Для20Работыs { get; set; }
+
+    public virtual DbSet<Запрос3Для20Работы> Запрос3Для20Работыs { get; set; }
+
     public virtual DbSet<Клиенты> Клиентыs { get; set; }
 
     public virtual DbSet<РеестрЗаказов> РеестрЗаказовs { get; set; }
@@ -50,6 +54,41 @@ public partial class ServicesAndOrdersContext : DbContext
                 .HasForeignKey(d => d.НомерЗаказа)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Заказы_РеестрЗаказов");
+        });
+
+        modelBuilder.Entity<Запрос2Для20Работы>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("запрос 2 для 20 работы");
+
+            entity.Property(e => e.СтоимостьЗаказа)
+                .HasColumnType("decimal(38, 2)")
+                .HasColumnName("Стоимость_заказа");
+            entity.Property(e => e.ФамилияКлиента)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("Фамилия_клиента");
+        });
+
+        modelBuilder.Entity<Запрос3Для20Работы>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("запрос 3 для 20 работы");
+
+            entity.Property(e => e.Expr1)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.АдресКлиента)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Телефон)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.ФамилияКлиента)
+                .HasMaxLength(255)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Клиенты>(entity =>
