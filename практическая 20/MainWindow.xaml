@@ -32,7 +32,7 @@
             <MenuItem Header="Действия"  Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD">
                 <MenuItem   Header="Добавить запись" Click="btnAddEntry"  Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD" OpacityMask="#FFE61616"/>
                 <MenuItem   Header="Редактировать запись" Click="btnEdit_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD"/>
-
+                <MenuItem Header="Обновление" Click="btnUpdate_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD" />
                 <MenuItem   Header="Удалить запись" Click="btnDelete_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD"/>
             </MenuItem>
             <MenuItem Header="Справка" Background="#03261C" Foreground="#388AC8" BorderBrush="#1533AD">
@@ -76,13 +76,32 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
         </DataGrid>
-        <DataGrid x:Name="DGclient" Grid.Row="2" IsReadOnly="True" Margin="0,2,0,7" AutoGenerateColumns="False" >
+        <DataGrid x:Name="DGclient" Grid.Row="2" IsReadOnly="True" Margin="0,2,0,7" AutoGenerateColumns="False" Foreground="#FF6F00" HeadersVisibility="Column" GridLinesVisibility="All" RowBackground="#8403E7"  AlternatingRowBackground="#E7003E" HorizontalGridLinesBrush="#00D7FF"  VerticalGridLinesBrush="#FFEB40" >
             <DataGrid.Columns>
-                <DataGridTextColumn  Binding="{Binding КодКлиента}" Header="Код клиента"  />
+                <DataGridTextColumn  Binding="{Binding КодКлиента}" Header="Код клиента" x:Name="dgtcKod" />
                 <DataGridTextColumn Binding="{Binding ФамилияКлиента}" Header="Фамилия" />
-                <DataGridTextColumn Binding="{Binding АдресКлиента}" Header="Адрес" />
-                <DataGridTextColumn Binding="{Binding Телефон}" Header="Телефон"/>
+                <DataGridTextColumn Binding="{Binding СтоимостьЗаказа}" Header="Стоимость заказа" Visibility="Collapsed" x:Name="dgtcCost"/>
+                <DataGridTextColumn Binding="{Binding АдресКлиента}" Header="Адрес" x:Name="dgtcAdres" />
+                <DataGridTextColumn Binding="{Binding Телефон}" Header="Телефон" x:Name="dgtcPhone"/>
             </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="	#F83EAB"/>
+                    <Setter Property="Foreground" Value="#1B0297"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#A020F0" Offset="0.0" />
+
+                    <GradientStop Color="#800080" Offset="0.5" />
+
+                    <GradientStop Color="#483D8B" Offset="1.0" />
+
+                </LinearGradientBrush>
+            </DataGrid.Background>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,3,0,0" >
             <Button Height="30" Width="160" VerticalAlignment="Top" Margin="20" Content="Добавить запись" x:Name="btnADD" Click="btnAddEntry" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
@@ -109,7 +128,11 @@
 
                 <Button Content="Найти" x:Name="ZP2" Click="btnPhoneRyzan_Click" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
             </StackPanel>
-           
+            <StackPanel Margin="5" >
+                <Label Content="Имена клиентов" Margin="5" HorizontalContentAlignment="Center" Width="210" Foreground="#388AC8"/>
+                <TextBox TextWrapping="Wrap" x:Name="tbPoisk2" Margin="5" Height="20"  Width="210" Background="#0A3B2C" Foreground="#FF0B8EEC" BorderBrush="#FF7DE8E8"/>
+                <Button Content="Поиск" x:Name="btnFind2" Margin="5" Height="20" Click="btnFind2_Click" Width="210" Background="#03261C" Foreground="#388AC8" BorderBrush="#FF7DE8E8"/>
+            </StackPanel>
 
 
 

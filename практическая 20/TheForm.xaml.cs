@@ -32,8 +32,8 @@ namespace практическая_20
         private void btnFormAdd_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
-            if (!int.TryParse(tbNumber.Text, out int N) || N <= 0)
-                errors.AppendLine("Ошибка в номере");
+            //if (!int.TryParse(tbNumber.Text, out int N) || N <= 0)
+            //    errors.AppendLine("Ошибка в номере");
             if (dpDate.SelectedDate == null || dpDate.SelectedDate.Value == default(DateTime))
                 errors.AppendLine("Заполните корректную дату");
             else if (dpDate.SelectedDate.Value > DateTime.Now)
@@ -79,8 +79,11 @@ namespace практическая_20
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-            if(Flags.FlagADD == true )
+            cbNumber.ItemsSource = _db.РеестрЗаказовs.ToList();
+            cbNumber.DisplayMemberPath = "НомерЗаказа";
+
+
+            if (Flags.FlagADD == true )
             {
                 TheFormBlank.Title = "Добавить запись";
                 btnFormAdd.Content = "Добавить";

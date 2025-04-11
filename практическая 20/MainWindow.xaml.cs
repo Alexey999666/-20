@@ -38,14 +38,14 @@ namespace практическая_20
         }
         private void btnRequestInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Запрос 1 Находит студентов по полу 'Мужской' или 'Женский'\r\nЗапрос 2 Находит имена по первой букве\r\nЗапрос 3 Находит людей у которых по всем предметам одинаковые оценки\r\nЗапрос 4 Находит людей без отчества\r\nЗапрос 5 Определяет есть ли у выбраного по id студента искомая оценка, если нет то таблица будет пустой\r\nЗапрос 6 Обновление фамилии выбраного по id студента на ту которую указывает пользователь\r\nЗапрос 7 Обновление оценки выбраного по id студента по информатике на веденную пользователемм\r\nЗапрос 8 Удаление студента по id", "Запросы", MessageBoxButton.OK, MessageBoxImage.Question);
+            MessageBox.Show("Запрос 1 Подсчитать стоимость заказов по каждому клиенту. \r\nЗапрос 2 Позволяет просмотреть данные обо всех клиентах, телефон которых содержит код города Рязань(9412).", "Запросы", MessageBoxButton.OK, MessageBoxImage.Question);
         }
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
            
            
             tbPoisk.Clear();
-           
+            tbPoisk2.Clear();
            
             
             
@@ -60,6 +60,10 @@ namespace практическая_20
         {
             using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
             {
+                dgtcCost.Visibility = Visibility.Collapsed;
+                dgtcPhone.Visibility = Visibility.Visible;
+                dgtcKod.Visibility = Visibility.Visible;
+                dgtcAdres.Visibility = Visibility.Visible;
                 int selectIndex = DGDataBase.SelectedIndex;
                 int selectIndexCl = DGclient.SelectedIndex;
                 _db.Заказыs.Load();
@@ -69,6 +73,7 @@ namespace практическая_20
 
                 DGDataBase.ItemsSource = _db.Заказыs.ToList();
                 DGclient.ItemsSource = _db.Клиентыs.ToList();
+                
                 if (selectIndex != -1)
                 {
                     if (selectIndex >= DGDataBase.Items.Count) selectIndex = DGDataBase.Items.Count - 1;
@@ -143,7 +148,7 @@ namespace практическая_20
 
         private void btnFind_Click(object sender, RoutedEventArgs e)
         {
-            
+           
             List<Заказы> listItem = (List<Заказы>)DGDataBase.ItemsSource;
             var find = listItem.Where(p => p.КодУслугиNavigation.КодУслуги.ToString().Contains(tbPoisk.Text) || (p.КодУслугиNavigation != null &&
      p.КодУслугиNavigation.Наименование.Contains(tbPoisk.Text)));
@@ -165,21 +170,57 @@ namespace практическая_20
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             LoudDataBaseDG();
+            
         }
 
         private void btnClientCost_Click(object sender, RoutedEventArgs e)
         {
-            using(ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            
+                dgtcCost.Visibility = Visibility.Visible;
+            
+            dgtcAdres.Visibility = Visibility.Collapsed;
+            dgtcKod.Visibility = Visibility.Collapsed;
+            dgtcPhone.Visibility = Visibility.Collapsed;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
             {
-                var CostSum = _db.Клиентыs.FromSql($"Запрос2Для20Работы");
-                DGclient.ItemsSource = CostSum.ToList();
+                var CostSum = _db.Set<Запрос2Для20Работы>()
+                         .FromSqlRaw("SELECT * FROM [запрос 2 для 20 работы]")
+                         .ToList();
+                DGclient.ItemsSource = CostSum;
             }
            
         }
 
         private void btnPhoneRyzan_Click(object sender, RoutedEventArgs e)
         {
+            btnUpdate_Click(sender, e);
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            {
+                var RazPhone = _db.Set<Запрос3Для20Работы>().FromSqlRaw("Select * From [запрос 3 для 20 работы]").ToList();
+                DGclient.ItemsSource = RazPhone;
+            }
+        }
 
+        private void btnFind2_Click(object sender, RoutedEventArgs e)
+        {
+            if(tbPoisk2.Text.Length > 0)
+            {
+                btnUpdate_Click(sender, e);
+            }
+            
+            List<Клиенты> listItem = (List<Клиенты>)DGclient.ItemsSource;
+            var find = listItem.Where(p =>p.ФамилияКлиента.Contains(tbPoisk2.Text));
+            if (find.Any())
+            {
+                var item = find.First();
+                DGclient.SelectedItem = item;
+                DGclient.ScrollIntoView(item);
+                DGclient.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Совпадений не найдено");
+            }
         }
     }
 
