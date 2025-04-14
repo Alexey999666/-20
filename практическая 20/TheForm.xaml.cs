@@ -38,8 +38,10 @@ namespace практическая_20
                 errors.AppendLine("Заполните корректную дату");
             else if (dpDate.SelectedDate.Value > DateTime.Now)
                 errors.AppendLine("Дата не может быть в будущем");
-            if (!int.TryParse(tbCod.Text, out int C) || C <= 0)
-                errors.AppendLine("Ошибка в коде");
+            if (string.IsNullOrWhiteSpace(cbNumber.Text))
+                errors.AppendLine("Заполните заказ");
+            if (string.IsNullOrWhiteSpace(cbKod.Text))
+                errors.AppendLine("Заполните услугу");
             tbCoust.Text = tbCoust.Text.Replace(".", ",");
             if (!double.TryParse(tbCoust.Text, out double D) || D <= 0)
                 errors.AppendLine("Ошибка в цене");
@@ -81,6 +83,8 @@ namespace практическая_20
         {
             cbNumber.ItemsSource = _db.РеестрЗаказовs.ToList();
             cbNumber.DisplayMemberPath = "НомерЗаказа";
+            cbKod.ItemsSource = _db.СправочникУслугs.ToList();
+            cbKod.DisplayMemberPath = "Наименование";
 
 
             if (Flags.FlagADD == true )
