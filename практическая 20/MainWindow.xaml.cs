@@ -38,7 +38,13 @@ namespace практическая_20
         }
         private void btnRequestInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Запрос 1 Подсчитать стоимость заказов по каждому клиенту. \r\nЗапрос 2 Позволяет просмотреть данные обо всех клиентах, телефон которых содержит код города Рязань(9412).", "Запросы", MessageBoxButton.OK, MessageBoxImage.Question);
+            MessageBox.Show("Запрос 1 Подсчитывает стоимость заказов по каждому клиенту."
+                +" \r\nЗапрос 2 Позволяет просмотреть данные обо всех клиентах, телефон которых содержит код города Рязань(4912)."
+                +" \r\nЗапрос 3 Подсчитывает количество заказов по наличному и безналичному расчету в первом квартале."
+                +" \r\nЗапрос 4 Определеляет итоговую стоимость услуг, оказанных в зимние месяцы."
+                +" \r\nЗапрос 5 Увеличевает стоимости услуг на 0,15%."
+                +" \r\nЗапрос 6 Определяет количество заказов по клиентам."
+                +" \r\nЗапрос 7 Показывает Фамилии клиентов, со стоимостью заказов ниже средней.", "Запросы", MessageBoxButton.OK, MessageBoxImage.Question);
         }
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -64,6 +70,7 @@ namespace практическая_20
                 dgtcPhone.Visibility = Visibility.Visible;
                 dgtcKod.Visibility = Visibility.Visible;
                 dgtcAdres.Visibility = Visibility.Visible;
+                DGRequest.Visibility = Visibility.Collapsed;
                 int selectIndex = DGDataBase.SelectedIndex;
                 int selectIndexCl = DGclient.SelectedIndex;
                 _db.Заказыs.Load();
@@ -148,21 +155,26 @@ namespace практическая_20
 
         private void btnFind_Click(object sender, RoutedEventArgs e)
         {
-           
-            List<Заказы> listItem = (List<Заказы>)DGDataBase.ItemsSource;
-            var find = listItem.Where(p => p.КодУслугиNavigation.КодУслуги.ToString().Contains(tbPoisk.Text) || (p.КодУслугиNavigation != null &&
-     p.КодУслугиNavigation.Наименование.Contains(tbPoisk.Text)));
-            if (find.Any())
+            if (tbPoisk.Text.Length != 0)
             {
-                var item = find.First();
-                DGDataBase.SelectedItem = item;
-                DGDataBase.ScrollIntoView(item);
-                DGDataBase.Focus();
+
+
+                List<Заказы> listItem = (List<Заказы>)DGDataBase.ItemsSource;
+                var find = listItem.Where(p => p.КодУслугиNavigation.КодУслуги.ToString().Contains(tbPoisk.Text) || (p.КодУслугиNavigation != null &&
+                p.КодУслугиNavigation.Наименование.Contains(tbPoisk.Text)));
+                if (find.Any())
+                {
+                    var item = find.First();
+                    DGDataBase.SelectedItem = item;
+                    DGDataBase.ScrollIntoView(item);
+                    DGDataBase.Focus();
+                }
+                else
+                {
+                    MessageBox.Show("Совпадений не найдено");
+                }
             }
-            else
-            {
-                MessageBox.Show("Совпадений не найдено");
-            }
+            else MessageBox.Show("Введите значение", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
        
@@ -175,6 +187,7 @@ namespace практическая_20
 
         private void btnClientCost_Click(object sender, RoutedEventArgs e)
         {
+           
             
                 dgtcCost.Visibility = Visibility.Visible;
             
@@ -203,23 +216,80 @@ namespace практическая_20
 
         private void btnFind2_Click(object sender, RoutedEventArgs e)
         {
-            if(tbPoisk2.Text.Length > 0)
+            if (tbPoisk2.Text.Length != 0)
             {
-                btnUpdate_Click(sender, e);
+
+
+                if (tbPoisk2.Text.Length > 0)
+                {
+                    btnUpdate_Click(sender, e);
+                }
+
+                List<Клиенты> listItem = (List<Клиенты>)DGclient.ItemsSource;
+                var find = listItem.Where(p => p.ФамилияКлиента.Contains(tbPoisk2.Text));
+                if (find.Any())
+                {
+                    var item = find.First();
+                    DGclient.SelectedItem = item;
+                    DGclient.ScrollIntoView(item);
+                    DGclient.Focus();
+                }
+                else
+                {
+                    MessageBox.Show("Совпадений не найдено");
+                }
             }
-            
-            List<Клиенты> listItem = (List<Клиенты>)DGclient.ItemsSource;
-            var find = listItem.Where(p =>p.ФамилияКлиента.Contains(tbPoisk2.Text));
-            if (find.Any())
+            else MessageBox.Show("Введите значение", "Ошибка", MessageBoxButton.OK,MessageBoxImage.Error);
+        }
+
+        private void btnRequest3_Click(object sender, RoutedEventArgs e)
+        {
+            DGRequest.Visibility = Visibility.Visible;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
             {
-                var item = find.First();
-                DGclient.SelectedItem = item;
-                DGclient.ScrollIntoView(item);
-                DGclient.Focus();
+                var Req3 = _db.Set<_21РаботаЗапрос1>().FromSqlRaw("Select * From [21 работа запрос 1]").ToList();
+                DGRequest.ItemsSource = Req3;
             }
-            else
+        }
+
+        private void btnRequest4_Click(object sender, RoutedEventArgs e)
+        {
+            DGRequest.Visibility = Visibility.Visible;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
             {
-                MessageBox.Show("Совпадений не найдено");
+                var Req4 = _db.Set<_21РаботаЗапрос2>().FromSqlRaw("Select * From [21 работа запрос 2]").ToList();
+                DGRequest.ItemsSource = Req4;
+            }
+        }
+
+        private void btnRequest5_Click(object sender, RoutedEventArgs e)
+        {
+            DGRequest.Visibility = Visibility.Visible;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            {
+                var Req5 = _db.Set<_21РаботаЗапрос3>().FromSqlRaw("Select * From [21 работа запрос 3]").ToList();
+                DGRequest.ItemsSource = Req5;
+            }
+
+        }
+
+        private void btnRequest6_Click(object sender, RoutedEventArgs e)
+        {
+            DGRequest.Visibility = Visibility.Visible;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            {
+                var Req6 = _db.Set<_21РаботаЗапрос4>().FromSqlRaw("Select * From [21 работа запрос 4]").ToList();
+                DGRequest.ItemsSource = Req6;
+            }
+        }
+
+        private void btnRequest7_Click(object sender, RoutedEventArgs e)
+        {
+            DGRequest.Visibility = Visibility.Visible;
+            using (ServicesAndOrdersContext _db = new ServicesAndOrdersContext())
+            {
+                var Req7 = _db.Set<_21РаботаЗапрос5>().FromSqlRaw("Select * From [21 работа запрос 5]").ToList();
+                DGRequest.ItemsSource = Req7;
             }
         }
     }
